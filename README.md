@@ -1,6 +1,10 @@
 ADBio is an Android app and widget that enables/disables the Android Debug
 Bridge (ADB).
 
+# Images
+
+![Screenshot 1](metadata/en-US/images/phoneScreenshots/1.png)
+
 # Install
 
     git clone https://github.com/yoshi1123/adbio.git
