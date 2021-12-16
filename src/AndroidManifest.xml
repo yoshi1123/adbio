@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<manifest xmlns:a='http://schemas.android.com/apk/res/android'
+  package='io.github.yoshi1123.adbio' a:versionCode='0' a:versionName='0'>
+  <!-- <uses&#45;sdk a:targetSdkVersion="23" a:minSdkVersion="14"/> -->
+  <uses-permission a:name="android.permission.ACCESS_SUPERUSER"/>
+  <application a:label='ADBio' a:icon="@mipmap/app_icon" a:theme="@android:style/Theme.DeviceDefault">
+    <!-- a:theme="@android:style/Theme.Material"> -->
+  <!-- <application a:label='ADBio' a:icon="@mipmap/app_icon" a:theme="@style/Theme.ADBio"> -->
+
+    <activity a:name='ADBio'>
+      <intent-filter>
+        <category a:name='android.intent.category.LAUNCHER'/>
+        <action a:name='android.intent.action.MAIN'/>
+      </intent-filter>
+    </activity>
+
+    <receiver a:name="ADBioAppWidgetProvider">
+      <intent-filter>
+        <action a:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+      </intent-filter>
+      <meta-data
+        a:name="android.appwidget.provider"
+        a:resource="@xml/widget_info"/>
+    </receiver>
+
+  </application>
+</manifest>
