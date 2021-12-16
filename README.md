@@ -6,5 +6,5 @@ Bridge (ADB).
     git clone https://github.com/yoshi1123/adbio.git
     cd adbio
     ./setup_signing_key.sh
-    ./gradlew buildRelease
+    ./gradlew assembleRelease
     adb install ./build/outputs/apk/release/adbio-release-unsigned.apk
