@@ -7,4 +7,4 @@ Bridge (ADB).
     cd adbio
     ./setup_signing_key.sh
     ./gradlew assembleRelease
-    adb install ./build/outputs/apk/release/adbio-release-unsigned.apk
+    adb install ./build/outputs/apk/release/adbio-release.apk
