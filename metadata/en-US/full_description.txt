@@ -1,2 +1,3 @@
-ADBio is an Android app and widget that enables/disables the Android Debug
-Bridge (ADB).
+ADBio is a widget that enables/disables the Android Debug Bridge (ADB). It
+allows to enable and disable USB debugging with a single button on the home
+screen.

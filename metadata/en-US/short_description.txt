@@ -1,1 +1,1 @@
-App and widget that enables/disables the Android Debug Bridge (ADB)
+Widget that enables/disables the Android Debug Bridge (ADB)
