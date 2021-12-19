@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.view.View;
 import android.content.Context;
 
+
 public final class ADBio extends android.app.Activity {
 
     private ADBInterface adbi;
@@ -74,7 +75,6 @@ public final class ADBio extends android.app.Activity {
                 Utility.updateWidget(context);
             }
         });
-
     }
 
 }

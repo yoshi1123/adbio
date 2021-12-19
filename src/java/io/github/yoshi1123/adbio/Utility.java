@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.ComponentName;
 import android.appwidget.AppWidgetManager;
 
+
 public class Utility {
 
     public static void updateWidget(Context context) {

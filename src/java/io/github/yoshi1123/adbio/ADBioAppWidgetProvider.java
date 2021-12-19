@@ -1,5 +1,6 @@
 package io.github.yoshi1123.adbio;
 
+import android.util.Log;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.widget.RemoteViews;
@@ -12,7 +13,6 @@ import android.os.Looper;
 import android.os.Handler;
 import android.provider.Settings;
 
-import android.util.Log;
 
 public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
@@ -31,7 +31,6 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
-
         ADBContentObserver co = new ADBContentObserver(context, new Handler(Looper.getMainLooper()));
         context.getContentResolver().registerContentObserver(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED), false, co);
 
@@ -40,7 +39,6 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
             final int N = appWidgetIds.length;
 
             for (int i = 0; i < N; ++i) {
-
                 Intent intent_e = new Intent(context, getClass());
                 intent_e.setAction("adb_enable");
                 intent_e.putExtra("WIDGET_ID", appWidgetIds[i]);
@@ -72,14 +70,12 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
                         pi_e);
 
                 appWidgetManager.updateAppWidget(appWidgetIds[i], views);
-
             }
 
         } catch(Exception e){
             e.printStackTrace();
         }
     }
-
 
     public void onReceive(Context context, Intent intent) {
         Log.d("ADBio", "RECEIVE ACTION: "+intent.getAction());
@@ -111,7 +107,6 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
-
 
         super.onReceive(context, intent);
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.provider.Settings;
 
+
 final class ADBContentObserver extends android.database.ContentObserver {
 
     private Context context;
@@ -23,4 +24,3 @@ final class ADBContentObserver extends android.database.ContentObserver {
     }
 
 }
-
