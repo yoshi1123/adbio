@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
+import android.os.Looper;
+import android.os.Handler;
+import android.provider.Settings;
 
 import android.util.Log;
 
@@ -28,6 +31,9 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
+
+        ADBContentObserver co = new ADBContentObserver(context, new Handler(Looper.getMainLooper()));
+        context.getContentResolver().registerContentObserver(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED), false, co);
 
         try {
             Log.d("ADBio", "UPDATE");
