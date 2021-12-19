@@ -23,6 +23,8 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     private ADBInterface adbi;
 
+    public static ADBContentObserver co = null;
+
     public ADBioAppWidgetProvider() {
         super();
         adbi = new ADBInterface();
@@ -31,8 +33,12 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
-        ADBContentObserver co = new ADBContentObserver(context, new Handler(Looper.getMainLooper()));
-        context.getContentResolver().registerContentObserver(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED), false, co);
+        if (this.co == null) {
+            context = context.getApplicationContext();
+            this.co = new ADBContentObserver(context, new Handler(Looper.getMainLooper()));
+            Log.d("ADBio", "Update: registering "+this.co);
+            context.getContentResolver().registerContentObserver(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED), false, this.co);
+        }
 
         try {
             Log.d("ADBio", "UPDATE");
@@ -109,6 +115,13 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
         }
 
         super.onReceive(context, intent);
+    }
+
+    public @Override void onDisabled(Context context) {
+        context = context.getApplicationContext();
+        Log.d("ADBio", "Disabled: unregistering "+String.valueOf(this.co));
+        context.getContentResolver().unregisterContentObserver(this.co);
+        this.co = null;
     }
 
 }
