@@ -6,9 +6,6 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ComponentName;
-import android.appwidget.AppWidgetManager;
 
 public final class ADBio extends android.app.Activity {
 
@@ -33,16 +30,6 @@ public final class ADBio extends android.app.Activity {
             tv.setText("Error: Could not access settings");
     }
 
-    private void updateWidget() {
-        Context context = getApplicationContext();
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        Intent intent = new Intent(context, ADBioAppWidgetProvider.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, ADBioAppWidgetProvider.class));
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-        sendBroadcast(intent);
-    }
-
     protected @Override void onResume() {
         super.onResume();
 
@@ -57,6 +44,7 @@ public final class ADBio extends android.app.Activity {
 
         setContentView(R.layout.activity_main);
 
+        final Context context = getApplicationContext();
         final TextView textV = (TextView) findViewById(R.id.text);
         final Button buttonEnable = (Button) findViewById(R.id.btnEnable);
         final Button buttonDisable = (Button) findViewById(R.id.btnDisable);
@@ -75,7 +63,7 @@ public final class ADBio extends android.app.Activity {
             public void onClick(View v) {
                 adbi.setAdb(1);
                 displayAdb(textV);
-                updateWidget();
+                Utility.updateWidget(context);
             }
         });
 
@@ -83,7 +71,7 @@ public final class ADBio extends android.app.Activity {
             public void onClick(View v) {
                 adbi.setAdb(0);
                 displayAdb(textV);
-                updateWidget();
+                Utility.updateWidget(context);
             }
         });
 
