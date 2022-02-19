@@ -1,5 +1,10 @@
+[![F-Droid version](https://img.shields.io/f-droid/v/io.github.yoshi1123.adbio.svg)](https://f-droid.org/en/packages/io.github.yoshi1123.adbio)
+<!--![Current release](https://img.shields.io/github/release/yoshi1123/adbio.svg?logo=github)-->
+
 ADBio is an Android app and widget that enables/disables the Android Debug
 Bridge (ADB).
+
+<a href="https://f-droid.org/en/packages/io.github.yoshi1123.adbio"><img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="75"></a>
 
 # Images
 
