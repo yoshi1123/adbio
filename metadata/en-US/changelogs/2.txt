@@ -1,2 +1,0 @@
-What's new:
-* Have widget enabled/disable status reflect manual changes
