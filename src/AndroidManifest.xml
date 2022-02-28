@@ -23,5 +23,11 @@
         a:resource="@xml/widget_info"/>
     </receiver>
 
+    <service
+      a:name=".SettingsJob"
+      a:label="Settings Job"
+      a:permission="android.permission.BIND_JOB_SERVICE">
+    </service>
+
   </application>
 </manifest>

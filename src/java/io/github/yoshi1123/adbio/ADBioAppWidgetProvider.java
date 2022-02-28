@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
-import android.os.Looper;
-import android.os.Handler;
-import android.provider.Settings;
 
 
 public class ADBioAppWidgetProvider extends AppWidgetProvider {
@@ -23,8 +20,6 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     private ADBInterface adbi;
 
-    public static ADBContentObserver co = null;
-
     public ADBioAppWidgetProvider() {
         super();
         adbi = new ADBInterface();
@@ -33,18 +28,17 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
             int[] appWidgetIds) {
-        if (this.co == null) {
-            context = context.getApplicationContext();
-            this.co = new ADBContentObserver(context, new Handler(Looper.getMainLooper()));
-            Log.d("ADBio", "Update: registering "+this.co);
-            context.getContentResolver().registerContentObserver(Settings.Global.getUriFor(Settings.Global.ADB_ENABLED), false, this.co);
-        }
+
+        // schedule a ServiceJob that updates the widget when the setting
+        // changes from outside of ADBio
+        SettingsJob.scheduleJob(context);
 
         try {
             Log.d("ADBio", "UPDATE");
             final int N = appWidgetIds.length;
 
             for (int i = 0; i < N; ++i) {
+
                 Intent intent_e = new Intent(context, getClass());
                 intent_e.setAction("adb_enable");
                 intent_e.putExtra("WIDGET_ID", appWidgetIds[i]);
@@ -76,12 +70,14 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
                         pi_e);
 
                 appWidgetManager.updateAppWidget(appWidgetIds[i], views);
+
             }
 
         } catch(Exception e){
             e.printStackTrace();
         }
     }
+
 
     public void onReceive(Context context, Intent intent) {
         Log.d("ADBio", "RECEIVE ACTION: "+intent.getAction());
@@ -114,14 +110,8 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
 
-        super.onReceive(context, intent);
-    }
 
-    public @Override void onDisabled(Context context) {
-        context = context.getApplicationContext();
-        Log.d("ADBio", "Disabled: unregistering "+String.valueOf(this.co));
-        context.getContentResolver().unregisterContentObserver(this.co);
-        this.co = null;
+        super.onReceive(context, intent);
     }
 
 }
