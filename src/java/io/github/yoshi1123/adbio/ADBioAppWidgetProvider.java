@@ -20,8 +20,19 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
         Log.d("ADBio", "CONSTRUCTOR");
     }
 
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager,
-            int[] appWidgetIds) {
+    /**
+     * Setup home screen widget button initialized to state of USB ADB.
+     * <p>
+     * Set to a green <code>Button</code> if USB ADB is enabled or set to a red
+     * <code>Button</code> if USB ADB is disabled, then add on click listeners
+     * to send a broadcast indicating whether to enable or disable USB ADB.
+     */
+    @Override
+    public void onUpdate(
+            final Context context,
+            final AppWidgetManager appWidgetManager,
+            final int[] appWidgetIds
+    ) {
 
         // schedule a ServiceJob that updates the widget when the setting
         // changes from outside of ADBio
@@ -29,21 +40,22 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
 
         try {
             Log.d("ADBio", "UPDATE");
-            final int N = appWidgetIds.length;
+            final int n = appWidgetIds.length;
 
-            for (int i = 0; i < N; ++i) {
+            for (int i = 0; i < n; ++i) {
 
-                Intent intent_e = new Intent(context, getClass());
-                intent_e.setAction("adb_enable");
-                intent_e.putExtra("WIDGET_ID", appWidgetIds[i]);
-                PendingIntent pi_e = PendingIntent.getBroadcast(context, 0,
-                        intent_e, PendingIntent.FLAG_UPDATE_CURRENT);
-                Intent intent_d = new Intent(context, getClass());
-                intent_d.setAction("adb_disable");
-                intent_d.putExtra("WIDGET_ID", appWidgetIds[i]);
-                PendingIntent pi_d = PendingIntent.getBroadcast(context, 0,
-                        intent_d, PendingIntent.FLAG_UPDATE_CURRENT);
-                Log.d("ADBio", "  sent widget id (getExtra): "+ intent_e.getIntExtra("WIDGET_ID", -1));
+                Intent intentE = new Intent(context, getClass());
+                intentE.setAction("adb_enable");
+                intentE.putExtra("WIDGET_ID", appWidgetIds[i]);
+                PendingIntent piE = PendingIntent.getBroadcast(context, 0,
+                        intentE, PendingIntent.FLAG_UPDATE_CURRENT);
+                Intent intentD = new Intent(context, getClass());
+                intentD.setAction("adb_disable");
+                intentD.putExtra("WIDGET_ID", appWidgetIds[i]);
+                PendingIntent piD = PendingIntent.getBroadcast(context, 0,
+                        intentD, PendingIntent.FLAG_UPDATE_CURRENT);
+                Log.d("ADBio", "  sent widget id (getExtra): "
+                        + intentE.getIntExtra("WIDGET_ID", -1));
 
                 // get layout for the App Widget and attach onClick listener to
                 // widget button
@@ -52,29 +64,34 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
                 if (adbi.getAdb() == 1) {
                     views.setViewVisibility(R.id.btnAdbEnabled, View.VISIBLE);
                     views.setViewVisibility(R.id.btnAdbDisabled, View.GONE);
-                }
-                else if (adbi.getAdb() == 0)
-                {
+                } else if (adbi.getAdb() == 0) {
                     views.setViewVisibility(R.id.btnAdbEnabled, View.GONE);
                     views.setViewVisibility(R.id.btnAdbDisabled, View.VISIBLE);
                 }
                 views.setOnClickPendingIntent(R.id.btnAdbEnabled,
-                        pi_d);
+                        piD);
                 views.setOnClickPendingIntent(R.id.btnAdbDisabled,
-                        pi_e);
+                        piE);
 
                 appWidgetManager.updateAppWidget(appWidgetIds[i], views);
 
             }
 
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public void onReceive(Context context, Intent intent) {
-        Log.d("ADBio", "RECEIVE ACTION: "+intent.getAction());
+    /**
+     * Handle 'adb_enable' and 'adb_disable' broadcasts to update the remote
+     * views for the home screen ADB button.
+     *
+     * @param context  the application to which the remote views are associated
+     * @param intent   the broadcast action
+     */
+    public void onReceive(final Context context, final Intent intent) {
+        Log.d("ADBio", "RECEIVE ACTION: " + intent.getAction());
         RemoteViews views = new RemoteViews(context.getPackageName(),
                 R.layout.widget_layout);
 
@@ -85,10 +102,12 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
             views.setViewVisibility(R.id.btnAdbEnabled, View.VISIBLE);
             views.setViewVisibility(R.id.btnAdbDisabled, View.GONE);
             int appWidgetId = intent.getIntExtra("WIDGET_ID", -1);
-            Log.d("ADBio", "  received back extra: "+appWidgetId);
+            Log.d("ADBio", "  received back extra: " + appWidgetId);
             // if (appWidgetId == -1)
-            //     throw new IllegalArgumentException("Receiver cannot find extra WIDGET_ID");
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            //     throw new IllegalArgumentException("Receiver cannot find"
+            //     + "extra WIDGET_ID");
+            AppWidgetManager appWidgetManager
+                = AppWidgetManager.getInstance(context);
             appWidgetManager.updateAppWidget(appWidgetId, views);
         } else if (intent.getAction() == "adb_disable") {
             Log.d("ADBio", "ONRECEIVE adb_disable");
@@ -97,10 +116,12 @@ public class ADBioAppWidgetProvider extends AppWidgetProvider {
             views.setViewVisibility(R.id.btnAdbEnabled, View.GONE);
             views.setViewVisibility(R.id.btnAdbDisabled, View.VISIBLE);
             int appWidgetId = intent.getIntExtra("WIDGET_ID", -1);
-            Log.d("ADBio", "  received back extra: "+appWidgetId);
+            Log.d("ADBio", "  received back extra: " + appWidgetId);
             // if (appWidgetId == -1)
-            //     throw new IllegalArgumentException("Receiver cannot find extra WIDGET_ID");
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            //     throw new IllegalArgumentException("Receiver cannot find"
+            //     + "extra WIDGET_ID");
+            AppWidgetManager appWidgetManager
+                = AppWidgetManager.getInstance(context);
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
 

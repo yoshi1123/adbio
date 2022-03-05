@@ -6,10 +6,17 @@ import android.view.View;
 import android.content.Context;
 
 
+/**
+ * ADBio is an Activity that enables/disables usb ADB.
+ */
 public final class ADBio extends android.app.Activity {
 
     private ADBInterface adbi;
-    private String error_msg;
+
+    /**
+     * The error message in the case root is not available.
+     */
+    private String errorMsg;
 
     public ADBio() {
         super();
@@ -17,19 +24,26 @@ public final class ADBio extends android.app.Activity {
             adbi = new ADBInterface();
         } catch (SUException e) {
             // textV.setText("Error: Could not get super user priviledge.");
-            error_msg = e.getMessage();
+            errorMsg = e.getMessage();
         }
     }
 
-    private void displayAdb(TextView tv) {
+    /**
+     * Set the <code>TextView</code> to indicate if ADB is enabled.
+     *
+     * @param tv  the <code>TextView</code> to set
+     */
+    private void displayAdb(final TextView tv) {
         int adbEnabled = adbi.getAdb();
         if (adbEnabled != -1)
-            tv.setText("ADB Debugging: "+(adbEnabled!=0?"Enabled":"Disabled")+"");
+            tv.setText("ADB Debugging: " + (
+                        adbEnabled != 0 ? "Enabled" : "Disabled") + "");
         else
             tv.setText("Error: Could not access settings");
     }
 
-    protected @Override void onResume() {
+    @Override
+    protected void onResume() {
         super.onResume();
 
         if (adbi == null) return;
@@ -38,7 +52,8 @@ public final class ADBio extends android.app.Activity {
         displayAdb(textV);
     }
 
-    protected @Override void onCreate(final android.os.Bundle activityState) {
+    @Override
+    protected void onCreate(final android.os.Bundle activityState) {
         super.onCreate(activityState);
 
         setContentView(R.layout.activity_main);
@@ -49,7 +64,7 @@ public final class ADBio extends android.app.Activity {
         final Button buttonDisable = (Button) findViewById(R.id.btnDisable);
 
         if (adbi == null) {
-            textV.setText(error_msg);
+            textV.setText(errorMsg);
             buttonEnable.setVisibility(View.GONE);
             buttonDisable.setVisibility(View.GONE);
             return;
@@ -59,7 +74,7 @@ public final class ADBio extends android.app.Activity {
         displayAdb(textV);
 
         buttonEnable.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 adbi.setAdb(1);
                 displayAdb(textV);
                 Utility.updateWidget(context);
@@ -67,7 +82,7 @@ public final class ADBio extends android.app.Activity {
         });
 
         buttonDisable.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 adbi.setAdb(0);
                 displayAdb(textV);
                 Utility.updateWidget(context);

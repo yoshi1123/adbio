@@ -6,10 +6,12 @@ import java.io.InputStreamReader;
 
 
 class SUException extends RuntimeException {
-    public SUException() { super(); }
-    public SUException(String message) { super(message); }
-    public SUException(Throwable cause) { super(cause); }
-    public SUException(String message, Throwable cause) { super(message, cause); }
+    SUException() { super(); }
+    SUException(final String message) { super(message); }
+    SUException(final Throwable cause) { super(cause); }
+    SUException(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }
 
 
@@ -19,6 +21,9 @@ public class ADBInterface {
     private final DataOutputStream sout;
     private final BufferedReader sin;
 
+    /**
+     * Class constructor to initialize a 'su' process.
+     */
     public ADBInterface() {
         try {
             su = Runtime.getRuntime().exec("su");
@@ -29,6 +34,10 @@ public class ADBInterface {
         sin = new BufferedReader(new InputStreamReader(su.getInputStream()));
     }
 
+    /**
+     * Returns whether USB ADB is enabled.
+     * @return 1 if enabled, 0 if disabled, or -1 on error
+     */
     public int getAdb() {
         try {
             sout.writeBytes("settings get global adb_enabled\n");
@@ -41,9 +50,14 @@ public class ADBInterface {
         }
     }
 
-    public void setAdb(int v) {
+    /**
+     * Enables or disables USB ADB.
+     *
+     * @param v  1 to enable; 0 to disable
+     */
+    public void setAdb(final int v) {
         try {
-            sout.writeBytes("settings put global adb_enabled "+v+"\n");
+            sout.writeBytes("settings put global adb_enabled " + v + "\n");
             sout.flush();
         } catch (Exception e) {
             e.printStackTrace();
