@@ -7,16 +7,10 @@ import android.widget.RemoteViews;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 
 
 public class ADBioAppWidgetProvider extends AppWidgetProvider {
-
-    // private final String COLOR_ENABLED = "#33999900";  // holo light
-    // private final String COLOR_DISABLED = "#ffff4444";
-    private final String COLOR_ENABLED = "#ff669900";  // holo dark
-    private final String COLOR_DISABLED = "#ffcc0000";
 
     private ADBInterface adbi;
 

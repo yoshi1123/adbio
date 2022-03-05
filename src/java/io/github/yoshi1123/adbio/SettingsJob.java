@@ -2,7 +2,6 @@ package io.github.yoshi1123.adbio;
 
 import android.util.Log;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ComponentName;
 import android.app.job.JobScheduler;
 import android.app.job.JobInfo;

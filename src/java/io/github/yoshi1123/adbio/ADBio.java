@@ -1,7 +1,5 @@
 package io.github.yoshi1123.adbio;
 
-import android.util.Log;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.View;

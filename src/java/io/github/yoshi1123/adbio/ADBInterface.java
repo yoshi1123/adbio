@@ -1,7 +1,6 @@
 package io.github.yoshi1123.adbio;
 
 import java.io.DataOutputStream;
-import java.io.DataInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
