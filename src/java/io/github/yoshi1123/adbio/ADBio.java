@@ -7,7 +7,7 @@ import android.content.Context;
 
 
 /**
- * ADBio is an Activity that enables/disables usb ADB.
+ * ADBio is an Activity that enables/disables USB ADB.
  */
 public final class ADBio extends android.app.Activity {
 
